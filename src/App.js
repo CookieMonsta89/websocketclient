@@ -14,7 +14,7 @@ const { Text } = Typography;
 
 const { Meta } = Card;
 
-const client = new W3CWebSocket("ws://joewebsocketserver.herokuapp.com");
+const client = new W3CWebSocket("wss://joewebsocketserver.herokuapp.com");
 
 export default class App extends Component {
 	state = {
