@@ -10,8 +10,6 @@ import "antd/dist/antd.css";
 
 import logo from "./logo-iel.png";
 
-import semigif from "./semigif.gif";
-
 const { Search } = Input;
 
 const { Text } = Typography;
@@ -94,7 +92,6 @@ export default class App extends Component {
     if (this.state.whoIsTyping !== 'null' && !this.state.whoIsTyping.includes(this.state.userName)) {
       return (
         <div className="whoistyping" style={{color:"white"}}>
-          <img id="slide" src={semigif} alt="semi"/>
           <p>{this.state.whoIsTyping}</p>
         </div>
       )
