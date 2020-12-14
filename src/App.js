@@ -10,8 +10,6 @@ import "antd/dist/antd.css";
 
 import logo from "./logo-iel.png";
 
-import semigif from "./semigif.gif";
-
 const { Search } = Input;
 
 const { Text } = Typography;
