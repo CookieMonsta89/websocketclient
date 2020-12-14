@@ -8,13 +8,16 @@ import { Card, Avatar, Input, Typography } from "antd";
 
 import "antd/dist/antd.css";
 
+import logo from "./logo-iel.png";
+
 const { Search } = Input;
 
 const { Text } = Typography;
 
 const { Meta } = Card;
 
-const client = new W3CWebSocket("wss://joewebsocketserver.herokuapp.com");
+// const client = new W3CWebSocket("wss://joewebsocketserver.herokuapp.com");
+const client = new W3CWebSocket("ws://localhost:8000");
 
 export default class App extends Component {
 	state = {
@@ -24,7 +27,9 @@ export default class App extends Component {
 
 		messages: [],
 
-		searchVal: "",
+    searchVal: "",
+    
+    whoIsTyping: 'null'
 	};
 
 	componentDidMount() {
@@ -33,25 +38,32 @@ export default class App extends Component {
 		};
 
 		client.onmessage = (message) => {
-			const dataFromServer = JSON.parse(message.data);
-
-			console.log("got reply!", dataFromServer);
-
-			if (dataFromServer.type === "message") {
-				this.setState((state) => ({
-					messages: [
-						...state.messages,
-
-						{
-							msg: dataFromServer.msg,
-
-							user: dataFromServer.user,
-						},
-					],
-				}));
-			}
+      let dataFromServer = null;
+      if (message.data.includes('typing') || message.data.includes('null')) {
+        dataFromServer = message.data
+        this.setState({
+          whoIsTyping: dataFromServer
+        })
+        console.log(this.state.whoIsTyping, 'state')
+      } else {
+        dataFromServer = JSON.parse(message.data);
+        if (dataFromServer.type === "message") {
+          this.setState((state) => ({
+            messages: [
+              ...state.messages,
+              {
+                msg: dataFromServer.msg,
+                user: dataFromServer.user,
+              },
+            ],
+            whoIsTyping: 'null',
+          }));
+          document.getElementById('scroll').scrollIntoView();
+          console.log(this.state.whoIsTyping, 'second typing')
+        }
+      }
 		};
-	}
+  }
 
 	onButtonClicked = (value) => {
 		client.send(
@@ -65,17 +77,24 @@ export default class App extends Component {
 		);
 
 		this.setState({ searchVal: "" });
-	};
+  };
+  
+  onChangeType = (e) => {
+    this.setState({ searchVal: e.target.value })
+    if (this.state.searchVal.length > 0) {
+      client.send(`${this.state.userName} is typing...`)
+    } else {
+      client.send('null')
+    }
+  }
 
 	render() {
 		return (
-			<div className="main">
+      <div className="main">
 				{this.state.isLoggedIn ? (
 					<div>
 						<div className="title">
-							<Text type="secondary" style={{ fontSize: "36px" }}>
-								Websocket Chat
-							</Text>
+            <img src={logo}/>
 						</div>
 
 						<div
@@ -100,7 +119,7 @@ export default class App extends Component {
 									<Meta
 										avatar={
 											<Avatar
-												style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+												style={{ color: "white", backgroundColor: "#f58220" }}
 											>
 												{message.user[0].toUpperCase()}
 											</Avatar>
@@ -112,19 +131,27 @@ export default class App extends Component {
 							))}
 						</div>
 
-						<div className="bottom">
+            <div className="bottom">
+              {this.state.whoIsTyping !== 'null' && !this.state.whoIsTyping.includes(this.state.userName) ? <div style={{color:"white"}}>{this.state.whoIsTyping}</div> : null}
 							<Search
 								placeholder="input message and send"
 								enterButton="Send"
 								value={this.state.searchVal}
 								size="large"
-								onChange={(e) => this.setState({ searchVal: e.target.value })}
-								onSearch={(value) => this.onButtonClicked(value)}
+								onChange={this.onChangeType}
+                onSearch={(value) => this.onButtonClicked(value)}
 							/>
-						</div>
+            </div>
+            <div id="scroll" />
 					</div>
 				) : (
-					<div style={{ padding: "200px 40px" }}>
+          <div style={{ padding: "200px 40px", display:"flex", flexDirection:"column", alignItems:"center", height:"100vh", justifyContent:"space-evenly" }}>
+            <div className="image-container">
+              <img src={logo} />
+            </div>
+            <Text type="secondary" style={{ fontSize: "36px", color: "white"}}>
+							Enter a Username:
+						</Text>
 						<Search
 							placeholder="Enter Username"
 							enterButton="Login"

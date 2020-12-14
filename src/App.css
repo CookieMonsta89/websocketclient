@@ -1,13 +1,14 @@
 body {
-	background-color: #bae7ff;
+  background-color:#002a40;
+  color:white;
 }
 
 .main {
-	height: 100vh;
-
+  height: 100%;
+  min-height: 100vh;
 	width: 100vw;
 
-	background-color: #bae7ff;
+	background-color: #002a40;
 }
 
 .title {
@@ -17,9 +18,9 @@ body {
 
 	padding: 2%;
 
-	background-color: #91d5ff;
+	background-color: #002a40;
 
-	color: #efefef;
+	color: white;
 }
 
 .bottom {
@@ -30,4 +31,10 @@ body {
 	left: 0;
 
 	bottom: 0;
+}
+
+.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {
+  background:#f58220;
+  border:1px solid #f58220;
+  color:white;
 }
