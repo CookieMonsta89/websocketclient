@@ -39,10 +39,16 @@ body {
   color:white;
 }
 
-.whoistyping {
+.whoistyping-left {
   display:flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-start;
+}
+
+.whoistyping-right {
+  display:flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 #slide {
