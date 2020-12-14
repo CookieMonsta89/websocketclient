@@ -10,6 +10,8 @@ import "antd/dist/antd.css";
 
 import logo from "./logo-iel.png";
 
+import semigif from "./semigif.gif";
+
 const { Search } = Input;
 
 const { Text } = Typography;
@@ -88,6 +90,17 @@ export default class App extends Component {
     }
   }
 
+  whoIsTypingFunc = () => {
+    if (this.state.whoIsTyping !== 'null' && !this.state.whoIsTyping.includes(this.state.userName)) {
+      return (
+        <div className="whoistyping" style={{color:"white"}}>
+          <img id="slide" src={semigif} alt="semi"/>
+          <p>{this.state.whoIsTyping}</p>
+        </div>
+      )
+    }
+  }
+
 	render() {
 		return (
       <div className="main">
@@ -132,7 +145,7 @@ export default class App extends Component {
 						</div>
 
             <div className="bottom">
-              {this.state.whoIsTyping !== 'null' && !this.state.whoIsTyping.includes(this.state.userName) ? <div style={{color:"white"}}>{this.state.whoIsTyping}</div> : null}
+              {this.whoIsTypingFunc()}
 							<Search
 								placeholder="input message and send"
 								enterButton="Send"

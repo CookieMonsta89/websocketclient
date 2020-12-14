@@ -38,3 +38,13 @@ body {
   border:1px solid #f58220;
   color:white;
 }
+
+.whoistyping {
+  display:flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#slide {
+  width:20%;
+}
