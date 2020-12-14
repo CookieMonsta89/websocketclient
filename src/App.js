@@ -94,7 +94,7 @@ export default class App extends Component {
 				{this.state.isLoggedIn ? (
 					<div>
 						<div className="title">
-            <img src={logo}/>
+            <img src={logo} alt="logo"/>
 						</div>
 
 						<div
@@ -147,7 +147,7 @@ export default class App extends Component {
 				) : (
           <div style={{ padding: "200px 40px", display:"flex", flexDirection:"column", alignItems:"center", height:"100vh", justifyContent:"space-evenly" }}>
             <div className="image-container">
-              <img src={logo} />
+              <img src={logo} alt="logo" />
             </div>
             <Text type="secondary" style={{ fontSize: "36px", color: "white"}}>
 							Enter a Username:
